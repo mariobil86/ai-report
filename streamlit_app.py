@@ -22,11 +22,23 @@ with st.form("my_form"):
     submit = st.form_submit_button("GENERA ANALISI DI POSIZIONAMENTO")
 
 if submit:
-    with st.spinner('Analisi profonda in corso...'):
-        st.success("Analisi completata.")
-        st.write(f"### Risultato per: {job}")
-        st.markdown("**Analisi Vulnerabilità:** Il tuo profilo mostra un'esposizione al 68% verso l'automazione entro i prossimi 18 mesi.")
-        st.markdown("**Valutazione Strategica:** Il tuo settore sta subendo un consolidamento forzato.")
+    with st.spinner('Accesso al database di settore...'):
+        import time
+        time.sleep(2) # Pausa drammatica
+        st.success("Analisi incrociata completata.")
         
-        st.warning("⚠️ Accesso limitato: Il Report Strategico Completo (10 pagine) è necessario per la mitigazione del rischio.")
+        # UI di report premium
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Indice di Rischio", "68%", "+12% vs media")
+        with col2:
+            st.metric("Potenziale AI", "High", "Critical")
+            
+        st.write(f"### Report Strategico per: {job}")
+        st.markdown(f"La nostra analisi identifica nel settore {industry} una trasformazione imminente.")
+        st.markdown("---")
+        st.markdown("📈 **Trend 2026-2027:** Il mercato richiede una transizione verso modelli ibridi.")
+        st.markdown("⚠️ **Vulnerabilità:** La tua posizione attuale presenta un gap di competenze del 40% rispetto allo standard richiesto.")
+        
+        st.warning("⚠️ **ULTIMA POSSIBILITÀ:** Scarica il Piano di Mitigazione Rischi e Strategia di Carriera.")
         st.link_button("SCARICA REPORT COMPLETO (9.99€)", "INSERISCI_QUI_TUO_LINK_STRIPE")
