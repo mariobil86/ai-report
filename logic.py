@@ -1,12 +1,15 @@
 def calcola_audit(dati):
-    # Algoritmo di calcolo del rischio (Formula di base)
-    # Più alto è il punteggio, più è alto il rischio
-    rischio = (11 - dati['replaceable']) * 7 + (dati['ai_dep'] * 5) - (dati['upskilling'] / 1000)
-
-    # Proiezione valore (semplificata)
-    valore_futuro = dati['income'] * (1 + (dati['ambition']/20)) * (1 - (rischio/200))
-
+    # Logica di calcolo ponderata
+    # Pesa di più la sostituibilità e la dipendenza da AI
+    raw_risk = (11 - dati['replaceable']) * 5 + (dati['ai_dep'] * 6) - (dati['upskilling'] / 800)
+    # Normalizzazione complessa per evitare risultati piatti
+    rischio = max(0, min(100, int(raw_risk * 1.2)))
+    
+    # Proiezione con moltiplicatore di ambizione
+    valore_futuro = dati['income'] * (1 + (dati['ambition'] / 15)) * (1 - (rischio / 300))
+    
     return {
-        "rischio": int(rischio),
-        "valore_futuro": int(valore_futuro * 5)
+        "rischio": rischio,
+        "valore_futuro": int(valore_futuro * 5),
+        "status": "CRITICAL" if rischio > 60 else "STABLE" if rischio > 30 else "OPTIMAL"
     }
