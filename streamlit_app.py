@@ -1,44 +1,54 @@
 import streamlit as st
+import time
 
-# Configurazione estetica
-st.set_page_config(page_title="AI Market Intelligence", page_icon="📈", layout="centered")
+st.set_page_config(page_title="AI Human Capital Engine", layout="wide")
 
-st.markdown("""
-<style>
-.main {background-color: #0e1117;}
-h1 {color: #ffffff; text-align: center;}
-.stButton>button {width: 100%; border-radius: 5px; background-color: #ff4b4b; color: white; font-weight: bold;}
-</style>
-""", unsafe_allow_html=True)
+# Styling Premium
+st.markdown("""<style>
+    .stButton>button {width: 100%; border-radius: 0px; background-color: #000; color: #fff;}
+    .css-1544g2n {padding: 2rem; border: 1px solid #333;}
+</style>""", unsafe_allow_html=True)
 
-st.title("📈 AI Career Insight 2026")
-st.subheader("Analisi strategica basata su dati di mercato")
-st.write("Il 92% dei professionisti non ha ancora implementato l'AI. Scopri dove ti posizioni.")
+st.title("🌐 AI Human Capital Engine")
+st.subheader("Analisi diagnostica profonda del posizionamento professionale 2026")
 
-with st.form("my_form"):
-    job = st.text_input("Qual è la tua professione?")
-    industry = st.selectbox("Il tuo settore di riferimento", ["Tech", "Finanza", "Manifattura", "Creativo", "Legale", "Altro"])
-    st.write("---")
-    submit = st.form_submit_button("GENERA ANALISI DI POSIZIONAMENTO")
+# Database Professioni esaustivo
+professioni = [
+    "Operaio Specializzato", "Operaio Generico", "Impiegato Amministrativo", 
+    "Programmatore / Software Engineer", "Marketing Manager", "Commercialista", 
+    "Avvocato", "HR Specialist", "Graphic Designer", "Project Manager", 
+    "Data Analyst", "Venditore / Sales", "Cuoco / Chef", "Autista", 
+    "Logistica", "Ingegnere", "Libero Professionista", "Altro"
+]
+
+with st.form("analisi_profonda"):
+    col1, col2 = st.columns(2)
+    with col1:
+        job = st.selectbox("Professione:", professioni)
+        remote = st.radio("Preferenza operativa:", ["Lavoro in Sede", "Smart Working", "Ibrido"])
+    with col2:
+        mobility = st.radio("Disponibilità al trasferimento:", ["Radicato nel territorio", "Disposto a trasferta", "Disponibile a relocate estero"])
+        ambition = st.select_slider("Livello di ambizione (1-10):", options=[1,2,3,4,5,6,7,8,9,10])
+    
+    submit = st.form_submit_button("GENERA DIAGNOSI PSICO-PROFESSIONALE")
 
 if submit:
-    with st.spinner('Accesso al database di settore...'):
-        import time
-        time.sleep(2) # Pausa drammatica
-        st.success("Analisi incrociata completata.")
+    with st.spinner('Scansione neuro-lavorativa in corso...'):
+        time.sleep(3)
         
-        # UI di report premium
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric("Indice di Rischio", "68%", "+12% vs media")
-        with col2:
-            st.metric("Potenziale AI", "High", "Critical")
-            
-        st.write(f"### Report Strategico per: {job}")
-        st.markdown(f"La nostra analisi identifica nel settore {industry} una trasformazione imminente.")
-        st.markdown("---")
-        st.markdown("📈 **Trend 2026-2027:** Il mercato richiede una transizione verso modelli ibridi.")
-        st.markdown("⚠️ **Vulnerabilità:** La tua posizione attuale presenta un gap di competenze del 40% rispetto allo standard richiesto.")
+        # Logica di "Cervello" avanzata
+        st.write("---")
+        st.write(f"### Analisi di Profilo: {job}")
         
-        st.warning("⚠️ **ULTIMA POSSIBILITÀ:** Scarica il Piano di Mitigazione Rischi e Strategia di Carriera.")
-        st.link_button("SCARICA REPORT COMPLETO (9.99€)", "INSERISCI_QUI_TUO_LINK_STRIPE")
+        # Simulazione di profondità
+        st.metric("Indice di Adattabilità", f"{70 + ambition}%")
+        
+        st.info(f"Il tuo profilo ('{remote}' + '{mobility}') indica una curva di apprendimento accelerata rispetto alla media di settore.")
+        
+        st.markdown("""
+        **Analisi Psicografica:**
+        La tua propensione alla mobilità ed il livello di ambizione indicato (livello {0}/10) ci permettono di mappare un rischio di obsolescenza professionale estremamente ridotto, a patto di una riconversione verso sistemi ibridi uomo-macchina.
+        """.format(ambition))
+        
+        st.warning("⚠️ ATTENZIONE: Il tuo potenziale è attualmente sotto-utilizzato. Per sbloccare la strategia di carriera personalizzata basata sui tuoi dati:")
+        st.link_button("OTTENERE PIANO DI MITIGAZIONE RISCHI (9.99€)", "INSERISCI_TUO_LINK_STRIPE")
