@@ -1,26 +1,41 @@
 import streamlit as st
+import plotly.graph_objects as go
 from logic import calcola_audit
 
-st.set_page_config(page_title="H.C.E. | System", layout="centered")
+# Configurazione Dashboard
+st.set_page_config(page_title="H.C.E. | CORE", layout="wide")
 
-# Importiamo la logica separata
-st.title("// EXECUTIVE ASSET AUDIT")
+st.markdown("""<style>.stApp {background: #000; color: #fff;} .css-1q8dd3e {background: #111;}</style>""", unsafe_allow_html=True)
 
-with st.form("main_form"):
-    # Qui lasciamo il form, ma i dati andranno in un dizionario
-    col1, col2 = st.columns(2)
-    with col1:
-        data = {}
-        data['income'] = st.select_slider("Reddito (k€):", [15, 25, 40, 60, 90, 150])
-        data['ai_dep'] = st.slider("Dipendenza AI (1-10):", 1, 10)
-    with col2:
-        data['replaceable'] = st.slider("Insostituibilità (1-10):", 1, 10)
-        data['ambition'] = st.slider("Ambizione (1-10):", 1, 10)
-        data['upskilling'] = st.slider("Investimento (€):", 0, 5000, 500)
+st.title("// SYSTEM DIAGNOSTICS: RUNNING")
 
-    submit = st.form_submit_button("GENERA AUDIT")
+with st.sidebar:
+    st.header("INPUT PARAMETERS")
+    data = {
+        'income': st.select_slider("Income (k€):", [15, 25, 40, 60, 90, 150, 250]),
+        'ai_dep': st.slider("AI Dependency (1-10):", 1, 10),
+        'replaceable': st.slider("Replaceability (1-10):", 1, 10),
+        'ambition': st.slider("Ambition (1-10):", 1, 10),
+        'upskilling': st.slider("Formazione (€):", 0, 5000, 500)
+    }
+    submit = st.button("EXECUTE AUDIT")
 
 if submit:
-    risultati = calcola_audit(data)
-    st.metric("Indice di Rischio", f"{risultati['rischio']}%")
-    st.metric("Valore a 5 anni", f"{risultati['valore_futuro']}k€")
+    res = calcola_audit(data)
+    
+    # Visualizzazione "Radar" (Estrema precisione)
+    fig = go.Figure(data=go.Scatterpolar(
+      r=[data['ai_dep'], data['replaceable'], data['ambition'], (data['upskilling']/500)],
+      theta=['AI DEP', 'REPLACE', 'AMBITION', 'UPKILL'],
+      fill='toself', line_color='#ff3e3e'
+    ))
+    fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 10])), showlegend=False, paper_bgcolor='black', font_color='white')
+    
+    c1, c2 = st.columns(2)
+    c1.plotly_chart(fig)
+    c2.metric("SYSTEM STATUS", res['status'])
+    c2.metric("RISK INDEX", f"{res['rischio']}%")
+    
+    st.write("---")
+    st.warning("⚠️ PROFILO A RISCHIO DI OBSOLESCENZA. ACQUISISCI IL REPORT TECNICO PER LA MITIGAZIONE.")
+    st.link_button("PURCHASE STRATEGIC REPORT (9.99€)", "INSERISCI_TUO_LINK_STRIPE")
