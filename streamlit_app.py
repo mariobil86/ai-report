@@ -1,41 +1,22 @@
 import streamlit as st
-import plotly.graph_objects as go
-from logic import calcola_audit
 
-# Configurazione Dashboard
-st.set_page_config(page_title="H.C.E. | CORE", layout="wide")
+st.set_page_config(page_title="THE JUDGEMENT", layout="centered")
 
-st.markdown("""<style>.stApp {background: #000; color: #fff;} .css-1q8dd3e {background: #111;}</style>""", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: #ff3e3e;'>// THE JUDGEMENT ENGINE //</h1>", unsafe_allow_html=True)
+st.write("---")
+st.write("Rispondi. La tua onestà determinerà la tua sentenza.")
 
-st.title("// SYSTEM DIAGNOSTICS: RUNNING")
-
-with st.sidebar:
-    st.header("INPUT PARAMETERS")
-    data = {
-        'income': st.select_slider("Income (k€):", [15, 25, 40, 60, 90, 150, 250]),
-        'ai_dep': st.slider("AI Dependency (1-10):", 1, 10),
-        'replaceable': st.slider("Replaceability (1-10):", 1, 10),
-        'ambition': st.slider("Ambition (1-10):", 1, 10),
-        'upskilling': st.slider("Formazione (€):", 0, 5000, 500)
-    }
-    submit = st.button("EXECUTE AUDIT")
+with st.form("risposte"):
+    q1 = st.text_area("1. Se dovessi eliminare il 90% delle tue attività quotidiane perché inutili, cosa resterebbe? Sii onesto: quanto della tua giornata è solo una recita per sentirti impegnato?")
+    q2 = st.text_area("2. Quale bugia racconti a te stesso ogni mattina per convincerti che sei sulla strada giusta, nonostante i risultati dicano l'esatto opposto?")
+    q3 = st.text_area("3. Se il tuo lavoro venisse sostituito da un algoritmo entro 12 mesi, cosa ti mancherebbe davvero: il lavoro, o la scusa che ti dà per non affrontare chi sei?")
+    q4 = st.text_area("4. Cosa ti spaventa di più: fallire miseramente o scoprire che, anche se ci provassi al massimo, rimarresti comunque mediocre?")
+    q5 = st.text_area("5. Se sapessi che nessuno ti giudicherà più domani, cosa inizieresti subito a fare? E perché, invece di farlo, preferisci continuare a vivere una vita che ti fa schifo?")
+    
+    submit = st.form_submit_button("SOTTOPONITI AL GIUDIZIO")
 
 if submit:
-    res = calcola_audit(data)
-    
-    # Visualizzazione "Radar" (Estrema precisione)
-    fig = go.Figure(data=go.Scatterpolar(
-      r=[data['ai_dep'], data['replaceable'], data['ambition'], (data['upskilling']/500)],
-      theta=['AI DEP', 'REPLACE', 'AMBITION', 'UPKILL'],
-      fill='toself', line_color='#ff3e3e'
-    ))
-    fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 10])), showlegend=False, paper_bgcolor='black', font_color='white')
-    
-    c1, c2 = st.columns(2)
-    c1.plotly_chart(fig)
-    c2.metric("SYSTEM STATUS", res['status'])
-    c2.metric("RISK INDEX", f"{res['rischio']}%")
-    
-    st.write("---")
-    st.warning("⚠️ PROFILO A RISCHIO DI OBSOLESCENZA. ACQUISISCI IL REPORT TECNICO PER LA MITIGAZIONE.")
-    st.link_button("PURCHASE STRATEGIC REPORT (9.99€)", "INSERISCI_TUO_LINK_STRIPE")
+    # Qui salviamo le risposte in un blocco di testo pronto per il copia-incolla
+    risposte_totali = f"Q1: {q1}\nQ2: {q2}\nQ3: {q3}\nQ4: {q4}\nQ5: {q5}"
+    st.text_area("COPIA LE RISPOSTE PER IL GIUDICE:", risposte_totali, height=300)
+    st.warning("Copia il testo sopra e incollalo nel tuo prompt AI.")
